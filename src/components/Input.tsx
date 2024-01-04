@@ -1,24 +1,29 @@
-import { useEffect } from "react";
+import { useAtom } from "jotai";
+import { input } from "../store/store";
+import { useEffect, useRef } from "react";
 
-export default function Input({ query, image, setImage, loading, setLoading }: any) {
-  const handleClick = async () => {
-    setImage(null);
-    setLoading(true)
-    query({ inputs: "Giant robot" }).then((response: Blob) => {
-      // Use image
-      setImage(response);
-    });
-  };
+export default function Input() {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [text, setText] = useAtom(input);
 
+  // Autosize textarea to fit content
   useEffect(() => {
-      console.log(loading)
-      console.log(image)
-  }, [loading])
-
-
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [text]);
+  
   return (
     <div>
-      <button onClick={handleClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Generate</button>
+      <textarea
+        value={text}
+        placeholder="Enter your image prompt..."
+        ref={textareaRef}
+        rows={1}
+        onChange={(e) => setText(e.target.value)}
+        className="w-96 p-1 rounded-xl resize-none"
+      />
     </div>
   );
 }

@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-type OutputProps = {
-  image: Blob | null;
-  loading: boolean;
-  setLoading: (loading: boolean) => void;
-};
+import { useAtom } from "jotai";
+import { output, loading } from "../store/store";
 
-export default function Output({ image, loading, setLoading }: OutputProps) {
+export default function Output() {
+  const [image, setImage] = useAtom(output);
+  const [isLoading, setIsLoading] = useAtom(loading);
   const [imageURL, setImageURL] = useState<string>("");
 
   useEffect(() => {
@@ -14,18 +13,17 @@ export default function Output({ image, loading, setLoading }: OutputProps) {
       setImageURL(objectURL);
     }
 
-    return () => setLoading(false);
+    return () => {
+        setIsLoading(false);
+        setImage(null);
+    }
   }, [image]);
 
-  useEffect(() => {
-    console.log(loading)
-    console.log(image)
-}, [loading])
 
   return (
-    <div className="h-96 w-96 border-2">
-        {loading && "Loading..."}
-        {(!loading && image) && <img src={imageURL} alt="image" />}
+    <div className="h-96 w-96 border-4 rounded-xl border-gray-800 bg-gray-100">
+      {isLoading && <div className="p-3">Loading...</div>}
+      {!isLoading && <img src={imageURL} className="rounded-lg" alt="image" />}
     </div>
   );
 }
