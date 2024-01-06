@@ -1,13 +1,15 @@
 import { useAtom } from "jotai";
 import { input } from "../store/store";
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Input() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [text, setText] = useAtom(input);
+  const [, setPrompt] = useAtom(input);
+  const [text, setText] = useState("");	
 
   // Autosize textarea to fit content
   useEffect(() => {
+    setPrompt(text.trim())
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;

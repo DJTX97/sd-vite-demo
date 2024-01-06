@@ -1,7 +1,5 @@
-//import { useEffect } from "react";
 import { useAtom } from "jotai";
 import { input, output, loading } from "../store/store";
-import { useState } from "react";
 
 const TOKEN = import.meta.env.VITE_TOKEN;
 const MODEL = import.meta.env.VITE_MODEL;
@@ -21,29 +19,17 @@ async function query(data: object) {
 }
 
 export default function GenerateBtn() {
-  const [prompt] = useAtom(input);
+  const [prompt, setPrompt] = useAtom(input);
 
-  const [prevPromptState, setPrevPromptState] = useState({
-    prevPrompt: "",
-    spaceCounter: 0,
-  });
-  
   const [, setImage] = useAtom(output);
   const [, setIsLoading] = useAtom(loading);
   const handleClick = async () => {
     setIsLoading(true);
 
-    setPrevPromptState((prev) => ({ ...prev, prevPrompt: prompt })); // track previous prompt
-
-    if (prevPromptState.prevPrompt === prompt) {
-      setPrevPromptState((prev) => ({
-        ...prev,
-        spaceCounter: prev.spaceCounter + 1, //increment space counter if same prompt
-      }));
-    }
+    setPrompt((prev) => (prev === prompt ? prompt + " " : prompt)); //add spaces to prompt based if previous input matches the current one
 
     const response = await query({
-      inputs: prompt + Array(prevPromptState.spaceCounter).fill(" ").join(""), //add spaces to prompt based on counter
+      inputs: prompt,
     });
 
     if (response.type === "application/json") {
