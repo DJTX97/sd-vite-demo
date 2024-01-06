@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+//import { useEffect } from "react";
 import { useAtom } from "jotai";
 import { input, output, loading } from "../store/store";
 
@@ -21,8 +21,8 @@ async function query(data: object) {
 
 export default function GenerateBtn() {
   const [prompt] = useAtom(input);
-  const [image, setImage] = useAtom(output);
-  const [isLoading, setIsLoading] = useAtom(loading);
+  const [, setImage] = useAtom(output);
+  const [, setIsLoading] = useAtom(loading);
   const handleClick = async () => {
     setIsLoading(true);
     const response = await query({ inputs: prompt })
