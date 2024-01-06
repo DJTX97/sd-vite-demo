@@ -5,15 +5,15 @@ import Output from "./components/Output";
 export default function App() {
   return (
     <div className="min-h-screen bg-green-400">
-      <div className="mb-10 pt-10 text-3xl font-bold text-center">Behold your SD image!</div>
-      <div className="flex justify-evenly">
-        <div className="flex flex-col items-center justify-evenly">
+      <div className="mb-10 pt-10 text-3xl font-bold text-center">
+        Stable Diffusion Demo
+      </div>
+      <div className="flex flex-col-reverse items-center md:flex-row gap-10 md:justify-evenly">
+        <div className="flex flex-col items-center gap-5 align">
           <Input />
           <GenerateBtn />
         </div>
-        <div>
-          <Output />
-        </div>
+        <Output />
       </div>
     </div>
   );

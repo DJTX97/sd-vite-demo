@@ -21,7 +21,7 @@ export default function Output() {
 
 
   return (
-    <div className="h-96 w-96 border-4 rounded-xl border-gray-800 bg-gray-100">
+    <div className="h-80 w-80 sm:h-96 sm:w-96 border-4 rounded-xl border-gray-800 bg-gray-100">
       {isLoading && <div className="p-3">Loading...</div>}
       {!isLoading && <img src={imageURL} className="rounded-lg" alt="image" />}
     </div>

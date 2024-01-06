@@ -13,7 +13,7 @@ export default function Input() {
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   }, [text]);
-  
+
   return (
     <div>
       <textarea
@@ -22,7 +22,7 @@ export default function Input() {
         ref={textareaRef}
         rows={1}
         onChange={(e) => setText(e.target.value)}
-        className="w-96 p-1 rounded-xl resize-none"
+        className="w-80 sm:w-96 p-2 rounded-xl resize-none"
       />
     </div>
   );
