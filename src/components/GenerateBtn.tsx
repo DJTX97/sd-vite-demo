@@ -48,13 +48,11 @@ export default function GenerateBtn() {
   // }, [isLoading, image]);
 
   return (
-    <div>
-      <button
-        onClick={handleClick}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Generate
-      </button>
-    </div>
+    <button
+      onClick={handleClick}
+      className="w-1/2 bg-blue-700 hover:bg-blue-500 p-5 rounded text-2xl text-white font-bold"
+    >
+      Generate
+    </button>
   );
 }
