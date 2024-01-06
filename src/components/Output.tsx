@@ -14,16 +14,21 @@ export default function Output() {
     }
 
     return () => {
-        setIsLoading(false);
-        setImage(null);
-    }
+      setIsLoading(false);
+      setImage(null);
+    };
   }, [image]);
-
 
   return (
     <div className="h-80 w-80 sm:h-96 sm:w-96 border-4 rounded-xl border-gray-800 bg-gray-100">
       {isLoading && <div className="p-3">Loading...</div>}
-      {!isLoading && <img src={imageURL} className="rounded-lg" alt="image" />}
+      {imageURL && !isLoading && <img src={imageURL} className="rounded-lg" alt="image" />}
+      {!imageURL && !isLoading && (
+        <img
+          src="./assets/placeholder/placeholder.jpg"
+          className="rounded-lg h-full"
+        />
+      )}
     </div>
   );
 }
