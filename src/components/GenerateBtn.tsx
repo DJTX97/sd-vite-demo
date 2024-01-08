@@ -1,26 +1,9 @@
 import { useAtom } from "jotai";
 import { input, output, loading } from "../store/store";
-
-const TOKEN = import.meta.env.VITE_TOKEN;
-const MODEL = import.meta.env.VITE_MODEL;
-
-async function query(data: object) {
-  const response = await fetch(MODEL, {
-    headers: {
-      Authorization: `Bearer ${TOKEN}`,
-    },
-    method: "POST",
-    body: JSON.stringify(data),
-  });
-
-  let result = await response.blob();
-
-  return result;
-}
+import { query } from "../scripts/generate";
 
 export default function GenerateBtn() {
   const [prompt, setPrompt] = useAtom(input);
-
   const [, setImage] = useAtom(output);
   const [isLoading, setIsLoading] = useAtom(loading);
   const handleGenerate = async () => {
@@ -58,7 +41,7 @@ export default function GenerateBtn() {
     <button
       onClick={handleGenerate}
       className={`w-1/2 bg-blue-700 ${
-        !isLoading ? "hover:bg-blue-500" : "opacity-60 cursor-not-allowed"
+        isLoading ? "opacity-60 cursor-not-allowed" : "hover:bg-blue-500"
       } p-5 rounded text-2xl text-white font-bold`}
       disabled={isLoading}
     >
