@@ -1,5 +1,5 @@
 export default function Loader() {
-  const color = "text-black";
+  const color = "text-black"; //valid tailwind text color
   const size = "6rem" //valid CSS value in px, em, rem, vh, vw, etc.
   const thickness = "border-[10px]" //valid tailwind border width
 
