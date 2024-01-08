@@ -5,11 +5,11 @@ import { useState, useEffect, useRef } from "react";
 export default function Input() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [, setPrompt] = useAtom(input);
-  const [text, setText] = useState("");	
+  const [text, setText] = useState("");
 
   // Autosize textarea to fit content
   useEffect(() => {
-    setPrompt(text.trim())
+    setPrompt(text.trim());
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;

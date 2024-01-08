@@ -23,7 +23,9 @@ export default function Output() {
   return (
     <div className="h-80 w-80 sm:h-96 sm:w-96 border-4 rounded-xl border-gray-800 bg-gray-100">
       {isLoading && <Loader />}
-      {imageURL && !isLoading && <img src={imageURL} className="rounded-lg" alt="image" />}
+      {imageURL && !isLoading && (
+        <img src={imageURL} className="rounded-lg" alt="image" />
+      )}
       {!imageURL && !isLoading && (
         <img
           src="./assets/placeholder/placeholder.jpg"

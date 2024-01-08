@@ -3,6 +3,7 @@ import { input, output, loading } from "../store/store";
 import { query } from "../scripts/generate";
 import { useState } from "react";
 import ErrorModal from "./ErrorModal";
+import WarningModal from "./WarningModal";
 
 type err = {
   state: boolean;
@@ -15,10 +16,12 @@ export default function GenerateBtn() {
   const [prompt, setPrompt] = useAtom(input);
   const [, setImage] = useAtom(output);
   const [isLoading, setIsLoading] = useAtom(loading);
+  const [warning, setWarning] = useState(false);
   const [err, setErr] = useState<err>({
     state: false,
     content: null,
   });
+
   const handleGenerate = async () => {
     setIsLoading(true);
 
@@ -28,7 +31,8 @@ export default function GenerateBtn() {
 
     if (!prompt.trim()) {
       setIsLoading(false);
-      alert("Please enter a prompt");
+      setWarning(true);
+      //alert("Please enter a prompt");
     } else {
       const response = await query({
         inputs: prompt,
@@ -68,6 +72,7 @@ export default function GenerateBtn() {
       >
         Generate
       </button>
+      <WarningModal warning={warning} setWarning={setWarning} />
       <ErrorModal err={err} setErr={setErr} />
     </>
   );
