@@ -1,4 +1,5 @@
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
+import { useModalToggle } from "../hooks/useModalToggle";
 
 type ErrorModalProps = {
   err: {
@@ -20,13 +21,7 @@ type ErrorModalProps = {
 export default function ErrorModal({ err, setErr }: ErrorModalProps) {
   const modalRef = useRef<HTMLDialogElement>(null);
 
-  useEffect(() => {
-    if (err.state) {
-      modalRef.current?.showModal();
-    } else {
-      modalRef.current?.close();
-    }
-  }, [err.state]);
+  useModalToggle({ modalRef, toggleState: err.state });
 
   // useEffect(() => {
   //   console.error(err);

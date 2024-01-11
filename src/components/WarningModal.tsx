@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import { useModalToggle } from "../hooks/useModalToggle";
 
 type WarningModalProps = {
   warning: boolean;
@@ -11,13 +12,8 @@ export default function WarningModal({
 }: WarningModalProps) {
   const modalRef = useRef<HTMLDialogElement>(null);
 
-  useEffect(() => {
-    if (warning) {
-      modalRef.current?.showModal();
-    } else {
-      modalRef.current?.close();
-    }
-  }, [warning]);
+  useModalToggle({ modalRef, toggleState: warning });
+
   return (
     <dialog
       ref={modalRef}
