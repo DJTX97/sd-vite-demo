@@ -2,13 +2,13 @@ import { useAtom } from "jotai";
 import { input, output, loading } from "../store/store";
 import { query } from "../scripts/generate";
 import { useState } from "react";
-import ErrorModal from "./ErrorModal";
-import WarningModal from "./WarningModal";
+import Modal from "./Modal";
 
-type err = {
+type modal = {
   state: boolean;
   content: null | {
     error?: string;
+    warning?: string;
   };
 };
 
@@ -16,8 +16,8 @@ export default function GenerateBtn() {
   const [prompt, setPrompt] = useAtom(input);
   const [, setImage] = useAtom(output);
   const [isLoading, setIsLoading] = useAtom(loading);
-  const [warning, setWarning] = useState(false);
-  const [err, setErr] = useState<err>({
+
+  const [modal, setModal] = useState<modal>({
     state: false,
     content: null,
   });
@@ -31,7 +31,7 @@ export default function GenerateBtn() {
 
     if (!prompt.trim()) {
       setIsLoading(false);
-      setWarning(true);
+      setModal({ state: true, content: { warning: "Invalid prompt!" } });
       //alert("Please enter a prompt");
     } else {
       const response = await query({
@@ -40,8 +40,8 @@ export default function GenerateBtn() {
 
       if (response.type === "application/json") {
         const result = JSON.parse(await response.text());
-        // console.error(result);
-        setErr({ state: true, content: result });
+        console.error(result);
+        setModal({ state: true, content: result });
         setIsLoading(false);
       } else {
         //console.log(response)
@@ -50,7 +50,7 @@ export default function GenerateBtn() {
 
       //FOR TESTING
       // setTimeout(() => {
-      //   setErr({ state: true, content: { error: "test error" } });
+      //   setModal({ state: true, content: { error: "Test Error!" } });
       //   setIsLoading(false);
       // }, 3000);
     }
@@ -72,8 +72,7 @@ export default function GenerateBtn() {
       >
         Generate
       </button>
-      <WarningModal warning={warning} setWarning={setWarning} />
-      <ErrorModal err={err} setErr={setErr} />
+      <Modal modal={modal} setModal={setModal} />
     </>
   );
 }
