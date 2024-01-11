@@ -1,6 +1,27 @@
 import { useRef } from "react";
 import { useModalToggle } from "../hooks/useModalToggle";
 
+const themes = {
+  error_theme: {
+    header_bg: "bg-red-200",
+    header_border: "border-red-500",
+    header_text: "text-red-500",
+    stroke: "stroke-red-500",
+    bg_btn: "bg-red-600",
+    bg_hover: "hover:bg-red-400",
+  },
+  warning_theme: {
+    header_bg: "bg-yellow-200",
+    header_border: "border-yellow-600",
+    header_text: "text-yellow-600",
+    stroke: "stroke-yellow-600",
+    bg_btn: "bg-yellow-600",
+    bg_hover: "hover:bg-yellow-500",
+  },
+};
+
+const { error_theme, warning_theme } = themes;
+
 type modal = {
   state: boolean;
   content: null | {
@@ -21,38 +42,22 @@ export default function Modal({ modal, setModal }: ModalProps) {
 
   useModalToggle({ modalRef, toggleState });
 
+  const styles = modal.content?.error ? error_theme : warning_theme;
+
   const errorCode = modal.content?.error?.includes("loading")
     ? `Error: Model is currently loading.`
     : modal.content?.error
     ? `Error: ${modal.content?.error}`
     : modal.content?.warning;
 
-  const styles = modal.content?.error
-    ? {
-        header_bg: "bg-red-200",
-        header_border: "border-red-500",
-        header_text: "text-red-500",
-        stroke: "stroke-red-500",
-        bg_btn: "bg-red-600",
-        bg_hover: "hover:bg-red-400",
-      }
-    : {
-        header_bg: "bg-yellow-200",
-        header_border: "border-yellow-600",
-        header_text: "text-yellow-600",
-        stroke: "stroke-yellow-600",
-        bg_btn: "bg-yellow-600",
-        bg_hover: "hover:bg-yellow-500",
-      };
-
   const message = modal.content?.error
     ? "Something went wrong. Try again in a few minutes."
-    : "Please enter a valid prompt non-empty prompt.";
+    : "Please enter a valid non-empty prompt.";
   return (
     <dialog
       ref={modalRef}
       onCancel={() => setModal({ state: false, content: null })}
-      className="h-60 w-[40rem] p-2 outline-none rounded-xl"
+      className="h-60 w-[40rem] p-2 outline-none rounded-xl shadow-xl"
     >
       <div
         className={`flex justify-between h-1/6 pl-1 ${styles.header_bg} border-2 rounded-lg ${styles.header_border}`}
@@ -75,9 +80,7 @@ export default function Modal({ modal, setModal }: ModalProps) {
               />
             </svg>
           </div>
-          <div>
-            {errorCode}
-          </div>
+          <div>{errorCode}</div>
         </div>
       </div>
       <div className="flex flex-col justify-around h-5/6 px-2 py-1">
